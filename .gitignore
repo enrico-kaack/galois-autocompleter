@@ -130,3 +130,12 @@ dmypy.json
 .pyre/
 
 **/.DS_Store
+model.tar.xz
+py150_src/data.tar.gz
+
+py150_src/data
+py150_src/train
+py150_src/eval
+py150_src/github_repos.txt
+py150_src/python50k_eval.txt
+py150_src/python100k_train.txt
