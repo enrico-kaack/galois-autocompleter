@@ -139,3 +139,4 @@ py150_src/eval
 py150_src/github_repos.txt
 py150_src/python50k_eval.txt
 py150_src/python100k_train.txt
+processed/
