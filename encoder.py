@@ -4,6 +4,7 @@ import os
 import json
 import regex as re
 from functools import lru_cache
+import logging
 
 @lru_cache()
 def bytes_to_unicode():
@@ -97,13 +98,25 @@ class Encoder:
         bpe_tokens = []
         for token in re.findall(self.pat, text):
             token = ''.join(self.byte_encoder[b] for b in token.encode('utf-8'))
+            logging.debug("ALL TOKENS", token)
             bpe_tokens.extend(self.encoder[bpe_token] for bpe_token in self.bpe(token).split(' '))
+        logging.debug(f"ENCODING {bpe_tokens}")
         return bpe_tokens
 
     def decode(self, tokens):
         text = ''.join([self.decoder[token] for token in tokens])
         text = bytearray([self.byte_decoder[c] for c in text]).decode('utf-8', errors=self.errors)
+        logging.debug(f"DECODING {text}")
         return text
+
+    def decode_to_array(self, tokens):
+        decoded = [self.decoder[token] for token in tokens]
+        decoded_utf8 = []
+        for dec in decoded:
+            text = bytearray([self.byte_decoder[c] for c in dec]).decode('utf-8', errors=self.errors)
+            decoded_utf8.append(text)
+        logging.debug(f"DECODING to TOKENS {decoded_utf8}")
+        return decoded_utf8
 
 def get_encoder(model_name, models_dir):
     with open(os.path.join(models_dir, model_name, 'encoder.json'), 'r') as f:

@@ -68,8 +68,9 @@ def interact_model(model_name='model', seed=99, nsamples=5, batch_size=5,
                 for _ in range(nsamples // batch_size):
 
                     feed_dict = {context: [context_tokens for _ in range(batch_size)]}
+                    print(f"FEED DICT {feed_dict}")
                     out = sess.run(output, feed_dict=feed_dict)[:, len(context_tokens):]
-
+                    print(f"OUT {out}")
                     for i in range(batch_size):
                         generated += 1
                         text = enc.decode(out[i])
@@ -84,4 +85,4 @@ def interact_model(model_name='model', seed=99, nsamples=5, batch_size=5,
         if __name__ == '__main__':
             app.run('0.0.0.0', port=3030, debug=True)
 
-interact_model()
+interact_model(model_name="345M", models_dir="models")
